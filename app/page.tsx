@@ -52,7 +52,7 @@ export default function Home() {
       <section className="flex flex-col justify-center min-h-screen bg-[#c09576]">
         <motion.div
           style={{
-            x: "-900px",
+            x: "-1000px",
           }}
           whileInView={{
             transitionDuration: "1s",
