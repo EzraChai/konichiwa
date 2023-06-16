@@ -27,9 +27,9 @@ function ScrollProgress() {
 
 export default function Home() {
   return (
-    <main>
+    <main className="overflow-hidden ">
       <ScrollProgress />
-      <section className="flex flex-col justify-center min-h-screen p-24 md:p-0 bg-[#667985]">
+      <section className=" flex flex-col justify-center min-h-screen p-24 md:p-0 bg-[#667985]">
         <Div className="text-[#ced9bf]">
           こんにちは
           <p className="pl-4 mt-4 text-base font-normal tracking-wide text-neutral-200">
@@ -87,7 +87,7 @@ function Div({ children, className }: Props) {
     <motion.div
       ref={ref}
       variants={{
-        hidden: { opacity: 0, x: -900 },
+        hidden: { opacity: 0, x: -200 },
         visible: { opacity: 1, x: 0 },
       }}
       initial="hidden"
