@@ -1,7 +1,14 @@
 "use client";
 
-import { motion, useScroll, useSpring } from "framer-motion";
+import {
+  motion,
+  useAnimation,
+  useInView,
+  useScroll,
+  useSpring,
+} from "framer-motion";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
@@ -12,7 +19,7 @@ function ScrollProgress() {
   });
   return (
     <motion.div
-      className="fixed inset-0 h-1 bg-white "
+      className="fixed inset-0 z-10 h-1 bg-white "
       style={{ scaleX, transformOrigin: "0%" }}
     />
   );
@@ -20,21 +27,10 @@ function ScrollProgress() {
 
 export default function Home() {
   return (
-    <main className="overflow-hidden">
+    <main>
       <ScrollProgress />
       <section className="flex flex-col justify-center min-h-screen p-24 md:p-0 bg-[#667985]">
-        <motion.div
-          style={{
-            x: "-900px",
-          }}
-          whileInView={{
-            transitionDuration: "1s",
-            x: "0px",
-          }}
-          transition={{ type: "tween", ease: "easeInOut" }}
-          viewport={{ once: true }}
-          className="text-9xl font-black md:p-24 text-center md:text-left text-[#ced9bf]"
-        >
+        <Div className="text-[#ced9bf]">
           こんにちは
           <p className="pl-4 mt-4 text-base font-normal tracking-wide text-neutral-200">
             {"Disclaimer: Only "}
@@ -47,47 +43,59 @@ export default function Home() {
             </Link>
             {" are allowed to access this website."}
           </p>
-        </motion.div>
+        </Div>
       </section>
       <section className="flex flex-col justify-center min-h-screen bg-[#c09576]">
-        <motion.div
-          style={{
-            x: "-900px",
-          }}
-          whileInView={{
-            transitionDuration: "1s",
-            x: "0px",
-          }}
-          transition={{ type: "tween", ease: "easeInOut" }}
-          viewport={{ once: true }}
-          className="font-black md:p-24 text-[#43424b] text-center md:text-left text-8xl"
-        >
+        <Div className="text-[#43424b]">
           私は <br className="md:hidden" /> Ezra
           <br className="md:hidden" /> です
           <span className="text-red-500">.</span>
-        </motion.div>
+        </Div>
       </section>
       <section className="flex flex-col justify-center min-h-screen bg-[#b94429]">
-        <motion.div
-          style={{
-            x: "-900px",
-          }}
-          whileInView={{
-            transitionDuration: "1s",
-            x: "0px",
-          }}
-          transition={{ type: "tween", ease: "easeInOut" }}
-          viewport={{ once: true }}
-          className="font-black md:p-24 text-center md:text-left text-[#fdda7d] text-8xl"
-        >
-          あなた
-          <br className="md:hidden" />の
-          <br className="md:hidden" />
-          彼氏
-          <br className="md:hidden" />
-          <span className="">🥰</span>
-        </motion.div>
+        <Div className="text-[#fdda7d]">
+          <div className="">
+            あなた
+            <br className="md:hidden" />の
+            <br className="md:hidden" />
+            彼氏
+            <br className="md:hidden" />
+            <span className="">🥰</span>
+          </div>
+        </Div>
       </section>
     </main>
+  );
+}
+
+interface Props extends React.HTMLAttributes<HTMLDivElement> {}
+
+function Div({ children, className }: Props) {
+  const mainControls = useAnimation();
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
+
+  useEffect(() => {
+    if (isInView) {
+      mainControls.start("visible");
+    } else {
+      mainControls.start("hidden");
+    }
+  }, [isInView, mainControls]);
+
+  return (
+    <motion.div
+      ref={ref}
+      variants={{
+        hidden: { opacity: 0, x: -900 },
+        visible: { opacity: 1, x: 0 },
+      }}
+      initial="hidden"
+      animate={mainControls}
+      transition={{ type: "tween", ease: "easeInOut", duration: 1 }}
+      className={`font-black md:p-24 text-center md:text-left text-8xl ${className}`}
+    >
+      {children}
+    </motion.div>
   );
 }
