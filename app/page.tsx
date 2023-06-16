@@ -52,7 +52,7 @@ export default function Home() {
       <section className="flex flex-col justify-center min-h-screen bg-[#c09576]">
         <motion.div
           style={{
-            x: "-1000px",
+            x: "-900px",
           }}
           whileInView={{
             transitionDuration: "1s",
@@ -62,7 +62,7 @@ export default function Home() {
           viewport={{ once: true }}
           className="font-black md:p-24 text-[#43424b] text-center md:text-left text-8xl"
         >
-          私は <br className="md:hidden" /> Ezra Chai
+          私は <br className="md:hidden" /> Ezra
           <br className="md:hidden" /> です
           <span className="text-red-500">.</span>
         </motion.div>
